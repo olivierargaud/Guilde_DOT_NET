@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="guilde_des_herosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="hero">
+    <Key>
+      <PropertyRef Name="her_id" />
+    </Key>
+    <Property Name="her_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="her_nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="her_prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="her_specialite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="her_classe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="her_level" Type="Int32" />
+    <Property Name="her_puissance" Type="Int32" />
+    <Property Name="her_nb_mission" Type="Int32" />
+    <Property Name="her_reputation" Type="Int32" />
+    <NavigationProperty Name="objet" Relationship="guilde_des_herosModel.FK_objet_hero" FromRole="hero" ToRole="objet" />
+  </EntityType>
+  <EntityType Name="objet">
+    <Key>
+      <PropertyRef Name="obj_id" />
+    </Key>
+    <Property Name="obj_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="obj_nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="obj_level" Type="Int32" />
+    <Property Name="obj_quantite" Type="Int32" />
+    <Property Name="obj_description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="obj_prix" Type="Double" />
+    <Property Name="obj_hero_id" Type="Int32" />
+    <NavigationProperty Name="hero" Relationship="guilde_des_herosModel.FK_objet_hero" FromRole="objet" ToRole="hero" />
+  </EntityType>
+  <EntityContainer Name="guilde_des_herosEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="hero" EntityType="Self.hero" />
+    <EntitySet Name="objet" EntityType="Self.objet" />
+    <AssociationSet Name="FK_objet_hero" Association="guilde_des_herosModel.FK_objet_hero">
+      <End Role="hero" EntitySet="hero" />
+      <End Role="objet" EntitySet="objet" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_objet_hero">
+    <End Type="guilde_des_herosModel.hero" Role="hero" Multiplicity="0..1" />
+    <End Type="guilde_des_herosModel.objet" Role="objet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="hero">
+        <PropertyRef Name="her_id" />
+      </Principal>
+      <Dependent Role="objet">
+        <PropertyRef Name="obj_hero_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

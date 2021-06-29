@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="guilde_des_herosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="hero">
+    <Key>
+      <PropertyRef Name="her_id" />
+    </Key>
+    <Property Name="her_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="her_nom" Type="varchar" MaxLength="50" />
+    <Property Name="her_prenom" Type="varchar" MaxLength="50" />
+    <Property Name="her_specialite" Type="varchar" MaxLength="50" />
+    <Property Name="her_classe" Type="varchar" MaxLength="50" />
+    <Property Name="her_level" Type="int" />
+    <Property Name="her_puissance" Type="int" />
+    <Property Name="her_nb_mission" Type="int" />
+    <Property Name="her_reputation" Type="int" />
+  </EntityType>
+  <EntityType Name="objet">
+    <Key>
+      <PropertyRef Name="obj_id" />
+    </Key>
+    <Property Name="obj_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="obj_nom" Type="varchar" MaxLength="50" />
+    <Property Name="obj_level" Type="int" />
+    <Property Name="obj_quantite" Type="int" />
+    <Property Name="obj_description" Type="varchar" MaxLength="150" />
+    <Property Name="obj_prix" Type="float" />
+    <Property Name="obj_hero_id" Type="int" />
+  </EntityType>
+  <Association Name="FK_objet_hero">
+    <End Role="hero" Type="Self.hero" Multiplicity="0..1" />
+    <End Role="objet" Type="Self.objet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="hero">
+        <PropertyRef Name="her_id" />
+      </Principal>
+      <Dependent Role="objet">
+        <PropertyRef Name="obj_hero_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="guilde_des_herosModelStoreContainer">
+    <EntitySet Name="hero" EntityType="Self.hero" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="objet" EntityType="Self.objet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_objet_hero" Association="Self.FK_objet_hero">
+      <End Role="hero" EntitySet="hero" />
+      <End Role="objet" EntitySet="objet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="guilde_des_herosModelStoreContainer" CdmEntityContainer="guilde_des_herosEntities">
+    <EntitySetMapping Name="hero">
+      <EntityTypeMapping TypeName="guilde_des_herosModel.hero">
+        <MappingFragment StoreEntitySet="hero">
+          <ScalarProperty Name="her_id" ColumnName="her_id" />
+          <ScalarProperty Name="her_nom" ColumnName="her_nom" />
+          <ScalarProperty Name="her_prenom" ColumnName="her_prenom" />
+          <ScalarProperty Name="her_specialite" ColumnName="her_specialite" />
+          <ScalarProperty Name="her_classe" ColumnName="her_classe" />
+          <ScalarProperty Name="her_level" ColumnName="her_level" />
+          <ScalarProperty Name="her_puissance" ColumnName="her_puissance" />
+          <ScalarProperty Name="her_nb_mission" ColumnName="her_nb_mission" />
+          <ScalarProperty Name="her_reputation" ColumnName="her_reputation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="objet">
+      <EntityTypeMapping TypeName="guilde_des_herosModel.objet">
+        <MappingFragment StoreEntitySet="objet">
+          <ScalarProperty Name="obj_hero_id" ColumnName="obj_hero_id" />
+          <ScalarProperty Name="obj_id" ColumnName="obj_id" />
+          <ScalarProperty Name="obj_nom" ColumnName="obj_nom" />
+          <ScalarProperty Name="obj_level" ColumnName="obj_level" />
+          <ScalarProperty Name="obj_quantite" ColumnName="obj_quantite" />
+          <ScalarProperty Name="obj_description" ColumnName="obj_description" />
+          <ScalarProperty Name="obj_prix" ColumnName="obj_prix" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

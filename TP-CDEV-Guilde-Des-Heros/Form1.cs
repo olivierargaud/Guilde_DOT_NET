@@ -1,0 +1,235 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.Entity.Migrations;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace TP_CDEV_Guilde_Des_Heros
+{
+    public partial class FormGestionGuilde : Form
+    {
+        public FormGestionGuilde()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            RefreshHero();
+            RefreshSacoche(int.Parse(dataGridViewMembres.CurrentRow.Cells[0].Value.ToString()));
+        }
+
+        private void RefreshHero()
+        {
+            dataGridViewMembres.DataSource = null;
+            dataGridViewSacoche.DataSource = null;
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            List<hero> listeMembres = entite.hero.ToList();
+            dataGridViewMembres.DataSource = listeMembres;
+            //dataGridViewMembres.Columns["objet"].Width = 0;
+            //dataGridViewMembres.Columns["her_id"].Width = 0;
+
+        }
+
+        private void RefreshSacoche(int idHero)
+        {
+            dataGridViewSacoche.DataSource = null;
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            List<objet> listeObjets = entite.objet.Where(a=>a.obj_hero_id == idHero).ToList();
+            dataGridViewSacoche.DataSource = listeObjets;
+            //dataGridViewMembres.Columns["obj_id"].Width = 0;
+            //dataGridViewMembres.Columns["obj_hero_id"].Width = 0;
+            //dataGridViewMembres.Columns["hero"].Width = 0;
+        }
+
+        private void ViderLesChampsHero()
+        {
+            textBoxHeroNom.Text = "";
+            textBoxHeroPrenom.Text = "";
+            textBoxHeroSpecialite.Text = "";
+            textBoxHeroClasse.Text = "";
+            numericUpDownHeroLevel.Value = 0;
+            numericUpDownHeroPuissance.Value = 0;
+            numericUpDownHeroNbMission.Value = 0;
+            numericUpDownHeroReputation.Value = 0;
+        }
+
+        private void ViderLesChampsObjet()
+        {
+            textBoxObjetNom.Text = "";
+            textBoxObjetDescription.Text = "";
+            numericUpDownObjetLevel.Value = 0;
+            numericUpDownObjetQuantite.Value = 0;
+            numericUpDownObjetPrix.Value = 0;
+        }
+
+
+
+        private void buttonAjoutHero_Click(object sender, EventArgs e)
+        {
+            hero hero = new hero();
+            hero.her_nom = textBoxHeroNom.Text;
+            hero.her_prenom = textBoxHeroPrenom.Text;
+            hero.her_specialite = textBoxHeroSpecialite.Text;
+            hero.her_classe = textBoxHeroClasse.Text;
+            hero.her_level = (int)numericUpDownHeroLevel.Value;
+            hero.her_puissance = (int)numericUpDownHeroPuissance.Value;
+            hero.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
+            hero.her_reputation = (int)numericUpDownHeroReputation.Value;
+
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            entite.hero.Add(hero);
+            entite.SaveChanges();
+
+            RefreshHero();
+            ViderLesChampsHero();
+        }
+
+        private void buttonModifierHero_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idHero = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+                
+                hero heroAModifier = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
+                heroAModifier.her_nom = textBoxHeroNom.Text;
+                heroAModifier.her_prenom = textBoxHeroPrenom.Text;
+                heroAModifier.her_specialite = textBoxHeroSpecialite.Text;
+                heroAModifier.her_classe = textBoxHeroClasse.Text;
+                heroAModifier.her_level = (int)numericUpDownHeroLevel.Value;
+                heroAModifier.her_puissance = (int)numericUpDownHeroPuissance.Value;
+                heroAModifier.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
+                heroAModifier.her_reputation = (int)numericUpDownHeroReputation.Value;
+
+                entite.hero.AddOrUpdate(heroAModifier);
+                entite.SaveChanges();
+                RefreshHero();
+                ViderLesChampsHero();
+            }
+        }
+
+        private void buttonSupprimer_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idHero = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+
+                List<objet> listeObjets = entite.objet.Where(a => a.obj_hero_id == idHero).ToList();
+                hero heroASupprimer = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
+                entite.hero.Remove(heroASupprimer);
+
+                foreach(objet o in listeObjets)
+                {
+                    entite.objet.Remove(o);
+                }
+
+
+                entite.SaveChanges();
+                RefreshHero();
+                dataGridViewSacoche.DataSource = null;
+                ViderLesChampsObjet();
+                ViderLesChampsHero();
+            }
+
+        }
+
+        private void dataGridViewMembres_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+
+                textBoxHeroNom.Text = dataGridViewMembres.SelectedRows[0].Cells[1].Value.ToString();
+                textBoxHeroPrenom.Text = dataGridViewMembres.SelectedRows[0].Cells[2].Value.ToString();
+                textBoxHeroSpecialite.Text = dataGridViewMembres.SelectedRows[0].Cells[3].Value.ToString();
+                textBoxHeroClasse.Text = dataGridViewMembres.SelectedRows[0].Cells[4].Value.ToString();
+                numericUpDownHeroLevel.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[5].Value.ToString());
+                numericUpDownHeroPuissance.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[6].Value.ToString());
+                numericUpDownHeroNbMission.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[7].Value.ToString());
+                numericUpDownHeroReputation.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[8].Value.ToString());
+
+
+                ViderLesChampsObjet();
+                RefreshSacoche(int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString()));
+
+            }
+        }
+
+        private void buttonAjouterObjet_Click(object sender, EventArgs e)
+        {
+            objet o = new objet();
+            o.obj_nom = textBoxObjetNom.Text;
+            o.obj_description = textBoxObjetDescription.Text;
+            o.obj_level = (int)numericUpDownObjetLevel.Value;
+            o.obj_quantite = (int)numericUpDownObjetQuantite.Value;
+            o.obj_prix = (int)numericUpDownObjetPrix.Value;
+            o.obj_hero_id = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            entite.objet.Add(o);
+            entite.SaveChanges();
+
+            RefreshSacoche((int)o.obj_hero_id);
+            ViderLesChampsObjet();
+        }
+
+        private void buttonModifierObjet_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idObjet = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[0].Value.ToString());
+
+                objet objetAModifier = entite.objet.Where(a => a.obj_hero_id == idObjet).FirstOrDefault();
+                objetAModifier.obj_nom = dataGridViewSacoche.SelectedRows[0].Cells[1].Value.ToString();
+                objetAModifier.obj_description = dataGridViewSacoche.SelectedRows[0].Cells[4].Value.ToString();
+                objetAModifier.obj_level = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[2].Value.ToString());
+                objetAModifier.obj_quantite = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[3].Value.ToString());
+                objetAModifier.obj_prix = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[5].Value.ToString());
+               
+
+                entite.objet.AddOrUpdate(objetAModifier);
+                entite.SaveChanges();
+                RefreshSacoche((int)objetAModifier.obj_hero_id);
+                ViderLesChampsObjet();
+            }
+        }
+
+        private void buttonSupprimerObjet_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idObjet = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[0].Value.ToString());
+
+                objet objetASupprimer = entite.objet.Where(a => a.obj_hero_id == idObjet).FirstOrDefault();
+                entite.objet.Remove(objetASupprimer);
+                entite.SaveChanges();
+                RefreshSacoche((int)objetASupprimer.obj_hero_id);
+                ViderLesChampsObjet();
+            }
+        }
+
+       
+
+        private void dataGridViewSacoche_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            {
+
+                textBoxObjetNom.Text = dataGridViewSacoche.SelectedRows[0].Cells[1].Value.ToString();
+                textBoxObjetDescription.Text = dataGridViewSacoche.SelectedRows[0].Cells[4].Value.ToString();
+                numericUpDownObjetLevel.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[2].Value.ToString());
+                numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[3].Value.ToString());
+                numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[5].Value.ToString());
+               
+            }
+        }
+    }
+}

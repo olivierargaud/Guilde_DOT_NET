@@ -93,6 +93,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.dataGridViewMembres.ReadOnly = true;
             this.dataGridViewMembres.Size = new System.Drawing.Size(637, 240);
             this.dataGridViewMembres.TabIndex = 0;
+            this.dataGridViewMembres.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMembres_CellClick);
             this.dataGridViewMembres.SelectionChanged += new System.EventHandler(this.dataGridViewMembres_SelectionChanged);
             // 
             // dataGridViewSacoche
@@ -108,6 +109,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.dataGridViewSacoche.ReadOnly = true;
             this.dataGridViewSacoche.Size = new System.Drawing.Size(637, 241);
             this.dataGridViewSacoche.TabIndex = 1;
+            this.dataGridViewSacoche.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSacoche_CellClick);
             this.dataGridViewSacoche.SelectionChanged += new System.EventHandler(this.dataGridViewSacoche_SelectionChanged);
             // 
             // buttonAjoutHero

@@ -92,10 +92,17 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonModifierHero_Click(object sender, EventArgs e)
         {
-            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewMembres.CurrentCell != null)
             {
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+
+            //}
+            
+
+            //if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            //{
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idHero = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+                int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
                 
                 hero heroAModifier = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
                 heroAModifier.her_nom = textBoxHeroNom.Text;
@@ -116,10 +123,13 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonSupprimer_Click(object sender, EventArgs e)
         {
-            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewMembres.CurrentCell != null)
             {
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+            //    if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            //{
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idHero = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+                int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
 
                 List<objet> listeObjets = entite.objet.Where(a => a.obj_hero_id == idHero).ToList();
                 hero heroASupprimer = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
@@ -142,34 +152,39 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void dataGridViewMembres_SelectionChanged(object sender, EventArgs e)
         {
-            if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewMembres.CurrentCell != null)
             {
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+                //    if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+                //{
 
-                textBoxHeroNom.Text = dataGridViewMembres.SelectedRows[0].Cells[1].Value.ToString();
-                textBoxHeroPrenom.Text = dataGridViewMembres.SelectedRows[0].Cells[2].Value.ToString();
-                textBoxHeroSpecialite.Text = dataGridViewMembres.SelectedRows[0].Cells[3].Value.ToString();
-                textBoxHeroClasse.Text = dataGridViewMembres.SelectedRows[0].Cells[4].Value.ToString();
-                numericUpDownHeroLevel.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[5].Value.ToString());
-                numericUpDownHeroPuissance.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[6].Value.ToString());
-                numericUpDownHeroNbMission.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[7].Value.ToString());
-                numericUpDownHeroReputation.Value = decimal.Parse(dataGridViewMembres.SelectedRows[0].Cells[8].Value.ToString());
+                textBoxHeroNom.Text = dataGridViewMembres.Rows[ligne].Cells[1].Value.ToString();
+                textBoxHeroPrenom.Text = dataGridViewMembres.Rows[ligne].Cells[2].Value.ToString();
+                textBoxHeroSpecialite.Text = dataGridViewMembres.Rows[ligne].Cells[3].Value.ToString();
+                textBoxHeroClasse.Text = dataGridViewMembres.Rows[ligne].Cells[4].Value.ToString();
+                numericUpDownHeroLevel.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[5].Value.ToString());
+                numericUpDownHeroPuissance.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[6].Value.ToString());
+                numericUpDownHeroNbMission.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[7].Value.ToString());
+                numericUpDownHeroReputation.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[8].Value.ToString());
 
 
                 ViderLesChampsObjet();
-                RefreshSacoche(int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString()));
+                RefreshSacoche(int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString()));
 
             }
         }
 
         private void buttonAjouterObjet_Click(object sender, EventArgs e)
         {
+            int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+
             objet o = new objet();
             o.obj_nom = textBoxObjetNom.Text;
             o.obj_description = textBoxObjetDescription.Text;
             o.obj_level = (int)numericUpDownObjetLevel.Value;
             o.obj_quantite = (int)numericUpDownObjetQuantite.Value;
             o.obj_prix = (int)numericUpDownObjetPrix.Value;
-            o.obj_hero_id = int.Parse(dataGridViewMembres.SelectedRows[0].Cells[0].Value.ToString());
+            o.obj_hero_id = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
 
             guilde_des_herosEntities entite = new guilde_des_herosEntities();
             entite.objet.Add(o);
@@ -207,11 +222,12 @@ namespace TP_CDEV_Guilde_Des_Heros
             {
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
                 int idObjet = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[0].Value.ToString());
-
-                objet objetASupprimer = entite.objet.Where(a => a.obj_hero_id == idObjet).FirstOrDefault();
+                
+                objet objetASupprimer = entite.objet.Where(a => a.obj_id == idObjet).FirstOrDefault();
+                int idHero = (int)objetASupprimer.obj_hero_id;
                 entite.objet.Remove(objetASupprimer);
                 entite.SaveChanges();
-                RefreshSacoche((int)objetASupprimer.obj_hero_id);
+                RefreshSacoche(idHero);
                 ViderLesChampsObjet();
             }
         }
@@ -230,6 +246,43 @@ namespace TP_CDEV_Guilde_Des_Heros
                 numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[5].Value.ToString());
                
             }
+        }
+
+      
+
+        private void dataGridViewMembres_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Console.WriteLine("clic cellule");
+
+
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+            Console.WriteLine(ligne);
+
+                textBoxHeroNom.Text = dataGridViewMembres.Rows[ligne].Cells[1].Value.ToString();
+                textBoxHeroPrenom.Text = dataGridViewMembres.Rows[ligne].Cells[2].Value.ToString();
+                textBoxHeroSpecialite.Text = dataGridViewMembres.Rows[ligne].Cells[3].Value.ToString();
+                textBoxHeroClasse.Text = dataGridViewMembres.Rows[ligne].Cells[4].Value.ToString();
+                numericUpDownHeroLevel.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[5].Value.ToString());
+                numericUpDownHeroPuissance.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[6].Value.ToString());
+                numericUpDownHeroNbMission.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[7].Value.ToString());
+                numericUpDownHeroReputation.Value = decimal.Parse(dataGridViewMembres.Rows[ligne].Cells[8].Value.ToString());
+
+
+                ViderLesChampsObjet();
+                RefreshSacoche(int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString()));
+
+            
+        }
+
+        private void dataGridViewSacoche_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
+
+            textBoxObjetNom.Text = dataGridViewSacoche.Rows[ligne].Cells[1].Value.ToString();
+            textBoxObjetDescription.Text = dataGridViewSacoche.Rows[ligne].Cells[4].Value.ToString();
+            numericUpDownObjetLevel.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[2].Value.ToString());
+            numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[3].Value.ToString());
+            numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[5].Value.ToString());
         }
     }
 }

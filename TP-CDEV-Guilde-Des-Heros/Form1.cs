@@ -21,8 +21,12 @@ namespace TP_CDEV_Guilde_Des_Heros
         private void Form1_Load(object sender, EventArgs e)
         {
             RefreshHero();
-            RefreshSacoche(int.Parse(dataGridViewMembres.CurrentRow.Cells[0].Value.ToString()));
+            if(dataGridViewMembres.CurrentRow!=null)
+            {
+                RefreshSacoche(int.Parse(dataGridViewMembres.CurrentRow.Cells[0].Value.ToString()));
+            }
         }
+            
 
         private void RefreshHero()
         {
@@ -176,37 +180,46 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonAjouterObjet_Click(object sender, EventArgs e)
         {
-            int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+            if (dataGridViewMembres.CurrentCell != null)
+            {
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
 
-            objet o = new objet();
-            o.obj_nom = textBoxObjetNom.Text;
-            o.obj_description = textBoxObjetDescription.Text;
-            o.obj_level = (int)numericUpDownObjetLevel.Value;
-            o.obj_quantite = (int)numericUpDownObjetQuantite.Value;
-            o.obj_prix = (int)numericUpDownObjetPrix.Value;
-            o.obj_hero_id = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
+                objet o = new objet();
+                o.obj_nom = textBoxObjetNom.Text;
+                o.obj_description = textBoxObjetDescription.Text;
+                o.obj_level = (int)numericUpDownObjetLevel.Value;
+                o.obj_quantite = (int)numericUpDownObjetQuantite.Value;
+                o.obj_prix = (int)numericUpDownObjetPrix.Value;
+                o.obj_hero_id = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
 
-            guilde_des_herosEntities entite = new guilde_des_herosEntities();
-            entite.objet.Add(o);
-            entite.SaveChanges();
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                entite.objet.Add(o);
+                entite.SaveChanges();
 
-            RefreshSacoche((int)o.obj_hero_id);
-            ViderLesChampsObjet();
+                RefreshSacoche((int)o.obj_hero_id);
+                ViderLesChampsObjet();
+
+            }
+            
         }
 
         private void buttonModifierObjet_Click(object sender, EventArgs e)
         {
-            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewSacoche.CurrentCell != null)
             {
-                guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idObjet = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[0].Value.ToString());
+                int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
 
-                objet objetAModifier = entite.objet.Where(a => a.obj_hero_id == idObjet).FirstOrDefault();
-                objetAModifier.obj_nom = dataGridViewSacoche.SelectedRows[0].Cells[1].Value.ToString();
-                objetAModifier.obj_description = dataGridViewSacoche.SelectedRows[0].Cells[4].Value.ToString();
-                objetAModifier.obj_level = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[2].Value.ToString());
-                objetAModifier.obj_quantite = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[3].Value.ToString());
-                objetAModifier.obj_prix = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[5].Value.ToString());
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idObjet = int.Parse(dataGridViewSacoche.Rows[ligne].Cells[0].Value.ToString());
+
+                objet objetAModifier = entite.objet.Where(a => a.obj_id == idObjet).FirstOrDefault();
+
+
+                objetAModifier.obj_nom = textBoxObjetNom.Text;
+                objetAModifier.obj_description = textBoxObjetDescription.Text;
+                objetAModifier.obj_level = (int)numericUpDownObjetLevel.Value;
+                objetAModifier.obj_quantite = (int)numericUpDownObjetQuantite.Value;
+                objetAModifier.obj_prix = (int)numericUpDownObjetPrix.Value;
                
 
                 entite.objet.AddOrUpdate(objetAModifier);
@@ -218,10 +231,12 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonSupprimerObjet_Click(object sender, EventArgs e)
         {
-            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewSacoche.CurrentCell != null)
             {
+                int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
+
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idObjet = int.Parse(dataGridViewSacoche.SelectedRows[0].Cells[0].Value.ToString());
+                int idObjet = int.Parse(dataGridViewSacoche.Rows[ligne].Cells[0].Value.ToString());
                 
                 objet objetASupprimer = entite.objet.Where(a => a.obj_id == idObjet).FirstOrDefault();
                 int idHero = (int)objetASupprimer.obj_hero_id;
@@ -252,11 +267,10 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void dataGridViewMembres_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("clic cellule");
-
-
+           if(dataGridViewMembres.CurrentCell!=null)
+            {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
-            Console.WriteLine(ligne);
+
 
                 textBoxHeroNom.Text = dataGridViewMembres.Rows[ligne].Cells[1].Value.ToString();
                 textBoxHeroPrenom.Text = dataGridViewMembres.Rows[ligne].Cells[2].Value.ToString();
@@ -270,6 +284,7 @@ namespace TP_CDEV_Guilde_Des_Heros
 
                 ViderLesChampsObjet();
                 RefreshSacoche(int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString()));
+            }
 
             
         }

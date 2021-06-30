@@ -35,8 +35,34 @@ namespace TP_CDEV_Guilde_Des_Heros
             guilde_des_herosEntities entite = new guilde_des_herosEntities();
             List<hero> listeMembres = entite.hero.ToList();
             dataGridViewMembres.DataSource = listeMembres;
-            //dataGridViewMembres.Columns["objet"].Width = 0;
-            //dataGridViewMembres.Columns["her_id"].Width = 0;
+           
+            if (dataGridViewMembres.DataSource != null)
+            {
+                // intitulé des colonnes
+                dataGridViewMembres.Columns[0].HeaderText = "Id";
+                dataGridViewMembres.Columns[1].HeaderText = "Nom";
+                dataGridViewMembres.Columns[2].HeaderText = "Prénom";
+                dataGridViewMembres.Columns[3].HeaderText = "Spécialité";
+                dataGridViewMembres.Columns[4].HeaderText = "Classe";
+                dataGridViewMembres.Columns[5].HeaderText = "Level";
+                dataGridViewMembres.Columns[6].HeaderText = "Puissance";
+                dataGridViewMembres.Columns[7].HeaderText = "Nombre de mission réussie";
+                dataGridViewMembres.Columns[8].HeaderText = "Réputation";
+
+                //largeur colonnes
+                dataGridViewMembres.Columns[0].Width = 30;
+                dataGridViewMembres.Columns[1].Width = 80;
+                dataGridViewMembres.Columns[2].Width = 80;
+                dataGridViewMembres.Columns[3].Width = 80;
+                dataGridViewMembres.Columns[4].Width = 80;
+                dataGridViewMembres.Columns[5].Width = 50;
+                dataGridViewMembres.Columns[6].Width = 65;
+                dataGridViewMembres.Columns[7].Width = 65;
+                dataGridViewMembres.Columns[8].Width = 64;
+
+                dataGridViewMembres.Columns[9].Visible = false;
+
+            }
 
         }
 
@@ -46,9 +72,35 @@ namespace TP_CDEV_Guilde_Des_Heros
             guilde_des_herosEntities entite = new guilde_des_herosEntities();
             List<objet> listeObjets = entite.objet.Where(a=>a.obj_hero_id == idHero).ToList();
             dataGridViewSacoche.DataSource = listeObjets;
-            //dataGridViewMembres.Columns["obj_id"].Width = 0;
-            //dataGridViewMembres.Columns["obj_hero_id"].Width = 0;
-            //dataGridViewMembres.Columns["hero"].Width = 0;
+       
+
+            if (dataGridViewSacoche.DataSource != null)
+            {
+                // intitulé des colonnes
+                dataGridViewSacoche.Columns[0].HeaderText = "Id";
+                dataGridViewSacoche.Columns[1].HeaderText = "Nom";
+                dataGridViewSacoche.Columns[2].HeaderText = "Level";
+                dataGridViewSacoche.Columns[3].HeaderText = "Quantité";
+                dataGridViewSacoche.Columns[4].HeaderText = "Description";
+                dataGridViewSacoche.Columns[5].HeaderText = "Prix";
+
+                //largeur colonnes
+                dataGridViewSacoche.Columns[0].Width = 30;
+                dataGridViewSacoche.Columns[1].Width = 150;
+                dataGridViewSacoche.Columns[2].Width = 51;
+                dataGridViewSacoche.Columns[3].Width = 51;
+                dataGridViewSacoche.Columns[4].Width = 260;
+                dataGridViewSacoche.Columns[5].Width = 51;
+
+                dataGridViewSacoche.Columns[6].Visible = false;
+                dataGridViewSacoche.Columns[7].Visible = false;
+
+
+                dataGridViewSacoche.Columns["obj_level"].DisplayIndex = 3;
+                dataGridViewSacoche.Columns["obj_quantite"].DisplayIndex = 4;
+                dataGridViewSacoche.Columns["obj_description"].DisplayIndex = 2;
+
+            }
         }
 
         private void ViderLesChampsHero()
@@ -99,12 +151,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             if (dataGridViewMembres.CurrentCell != null)
             {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
-
-            //}
-            
-
-            //if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
-            //{
+      
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
                 int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
                 
@@ -130,8 +177,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             if (dataGridViewMembres.CurrentCell != null)
             {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
-            //    if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
-            //{
+
                 guilde_des_herosEntities entite = new guilde_des_herosEntities();
                 int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
 
@@ -143,7 +189,6 @@ namespace TP_CDEV_Guilde_Des_Heros
                 {
                     entite.objet.Remove(o);
                 }
-
 
                 entite.SaveChanges();
                 RefreshHero();
@@ -159,8 +204,6 @@ namespace TP_CDEV_Guilde_Des_Heros
             if (dataGridViewMembres.CurrentCell != null)
             {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
-                //    if (dataGridViewMembres.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
-                //{
 
                 textBoxHeroNom.Text = dataGridViewMembres.Rows[ligne].Cells[1].Value.ToString();
                 textBoxHeroPrenom.Text = dataGridViewMembres.Rows[ligne].Cells[2].Value.ToString();
@@ -251,14 +294,16 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void dataGridViewSacoche_SelectionChanged(object sender, EventArgs e)
         {
-            if (dataGridViewSacoche.Rows.GetRowCount(DataGridViewElementStates.Selected) > 0)
+            if (dataGridViewSacoche.CurrentCell != null)
             {
 
-                textBoxObjetNom.Text = dataGridViewSacoche.SelectedRows[0].Cells[1].Value.ToString();
-                textBoxObjetDescription.Text = dataGridViewSacoche.SelectedRows[0].Cells[4].Value.ToString();
-                numericUpDownObjetLevel.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[2].Value.ToString());
-                numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[3].Value.ToString());
-                numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.SelectedRows[0].Cells[5].Value.ToString());
+                int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
+
+                textBoxObjetNom.Text = dataGridViewSacoche.Rows[ligne].Cells[1].Value.ToString();
+                textBoxObjetDescription.Text = dataGridViewSacoche.Rows[ligne].Cells[4].Value.ToString();
+                numericUpDownObjetLevel.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[2].Value.ToString());
+                numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[3].Value.ToString());
+                numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[5].Value.ToString());
                
             }
         }
@@ -268,7 +313,7 @@ namespace TP_CDEV_Guilde_Des_Heros
         private void dataGridViewMembres_CellClick(object sender, DataGridViewCellEventArgs e)
         {
            if(dataGridViewMembres.CurrentCell!=null)
-            {
+           {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
 
 

@@ -299,5 +299,6 @@ namespace TP_CDEV_Guilde_Des_Heros
             numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[3].Value.ToString());
             numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[5].Value.ToString());
         }
+
     }
 }

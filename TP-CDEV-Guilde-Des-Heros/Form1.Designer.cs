@@ -67,6 +67,10 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownObjetLevel = new System.Windows.Forms.NumericUpDown();
             this.labelObjet = new System.Windows.Forms.Label();
             this.labelHero = new System.Windows.Forms.Label();
+            this.buttonNouveauMembre = new System.Windows.Forms.Button();
+            this.buttonNouvelObjet = new System.Windows.Forms.Button();
+            this.buttonValiderMembre = new System.Windows.Forms.Button();
+            this.buttonValiderObjet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMembres)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSacoche)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -115,12 +119,13 @@ namespace TP_CDEV_Guilde_Des_Heros
             // buttonAjoutHero
             // 
             this.buttonAjoutHero.BackColor = System.Drawing.Color.Lime;
-            this.buttonAjoutHero.Location = new System.Drawing.Point(1015, 43);
+            this.buttonAjoutHero.Location = new System.Drawing.Point(207, 288);
             this.buttonAjoutHero.Name = "buttonAjoutHero";
             this.buttonAjoutHero.Size = new System.Drawing.Size(87, 23);
             this.buttonAjoutHero.TabIndex = 2;
             this.buttonAjoutHero.Text = "AJOUTER";
             this.buttonAjoutHero.UseVisualStyleBackColor = false;
+            this.buttonAjoutHero.Visible = false;
             this.buttonAjoutHero.Click += new System.EventHandler(this.buttonAjoutHero_Click);
             // 
             // buttonModifierHero
@@ -150,12 +155,13 @@ namespace TP_CDEV_Guilde_Des_Heros
             // buttonAjouterObjet
             // 
             this.buttonAjouterObjet.BackColor = System.Drawing.Color.Lime;
-            this.buttonAjouterObjet.Location = new System.Drawing.Point(1015, 327);
+            this.buttonAjouterObjet.Location = new System.Drawing.Point(207, 574);
             this.buttonAjouterObjet.Name = "buttonAjouterObjet";
             this.buttonAjouterObjet.Size = new System.Drawing.Size(87, 23);
             this.buttonAjouterObjet.TabIndex = 5;
             this.buttonAjouterObjet.Text = "AJOUTER";
             this.buttonAjouterObjet.UseVisualStyleBackColor = false;
+            this.buttonAjouterObjet.Visible = false;
             this.buttonAjouterObjet.Click += new System.EventHandler(this.buttonAjouterObjet_Click);
             // 
             // buttonModifierObjet
@@ -237,6 +243,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownHeroPuissance.Name = "numericUpDownHeroPuissance";
             this.numericUpDownHeroPuissance.Size = new System.Drawing.Size(161, 20);
             this.numericUpDownHeroPuissance.TabIndex = 13;
+            this.numericUpDownHeroPuissance.ValueChanged += new System.EventHandler(this.numericUpDownHeroPuissance_ValueChanged);
             // 
             // textBoxHeroClasse
             // 
@@ -244,6 +251,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.textBoxHeroClasse.Name = "textBoxHeroClasse";
             this.textBoxHeroClasse.Size = new System.Drawing.Size(161, 20);
             this.textBoxHeroClasse.TabIndex = 11;
+            this.textBoxHeroClasse.TextChanged += new System.EventHandler(this.textBoxHeroClasse_TextChanged);
             // 
             // textBoxHeroSpecialite
             // 
@@ -251,6 +259,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.textBoxHeroSpecialite.Name = "textBoxHeroSpecialite";
             this.textBoxHeroSpecialite.Size = new System.Drawing.Size(161, 20);
             this.textBoxHeroSpecialite.TabIndex = 10;
+            this.textBoxHeroSpecialite.TextChanged += new System.EventHandler(this.textBoxHeroSpecialite_TextChanged);
             // 
             // textBoxHeroPrenom
             // 
@@ -258,6 +267,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.textBoxHeroPrenom.Name = "textBoxHeroPrenom";
             this.textBoxHeroPrenom.Size = new System.Drawing.Size(161, 20);
             this.textBoxHeroPrenom.TabIndex = 9;
+            this.textBoxHeroPrenom.TextChanged += new System.EventHandler(this.textBoxHeroPrenom_TextChanged);
             // 
             // labelNom
             // 
@@ -337,6 +347,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.textBoxHeroNom.Name = "textBoxHeroNom";
             this.textBoxHeroNom.Size = new System.Drawing.Size(161, 20);
             this.textBoxHeroNom.TabIndex = 8;
+            this.textBoxHeroNom.TextChanged += new System.EventHandler(this.textBoxHeroNom_TextChanged);
             // 
             // numericUpDownHeroLevel
             // 
@@ -344,6 +355,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownHeroLevel.Name = "numericUpDownHeroLevel";
             this.numericUpDownHeroLevel.Size = new System.Drawing.Size(161, 20);
             this.numericUpDownHeroLevel.TabIndex = 12;
+            this.numericUpDownHeroLevel.ValueChanged += new System.EventHandler(this.numericUpDownHeroLevel_ValueChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -377,6 +389,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownObjetPrix.Name = "numericUpDownObjetPrix";
             this.numericUpDownObjetPrix.Size = new System.Drawing.Size(160, 20);
             this.numericUpDownObjetPrix.TabIndex = 19;
+            this.numericUpDownObjetPrix.ValueChanged += new System.EventHandler(this.numericUpDownObjetPrix_ValueChanged);
             // 
             // textBoxObjetNom
             // 
@@ -384,6 +397,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.textBoxObjetNom.Name = "textBoxObjetNom";
             this.textBoxObjetNom.Size = new System.Drawing.Size(160, 20);
             this.textBoxObjetNom.TabIndex = 16;
+            this.textBoxObjetNom.TextChanged += new System.EventHandler(this.textBoxObjetNom_TextChanged);
             // 
             // labelNomObjet
             // 
@@ -444,6 +458,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownObjetQuantite.Name = "numericUpDownObjetQuantite";
             this.numericUpDownObjetQuantite.Size = new System.Drawing.Size(160, 20);
             this.numericUpDownObjetQuantite.TabIndex = 18;
+            this.numericUpDownObjetQuantite.ValueChanged += new System.EventHandler(this.numericUpDownObjetQuantite_ValueChanged);
             // 
             // numericUpDownObjetLevel
             // 
@@ -451,6 +466,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.numericUpDownObjetLevel.Name = "numericUpDownObjetLevel";
             this.numericUpDownObjetLevel.Size = new System.Drawing.Size(160, 20);
             this.numericUpDownObjetLevel.TabIndex = 16;
+            this.numericUpDownObjetLevel.ValueChanged += new System.EventHandler(this.numericUpDownObjetLevel_ValueChanged);
             // 
             // labelObjet
             // 
@@ -472,12 +488,63 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.labelHero.TabIndex = 21;
             this.labelHero.Text = "Héro";
             // 
+            // buttonNouveauMembre
+            // 
+            this.buttonNouveauMembre.BackColor = System.Drawing.Color.Lime;
+            this.buttonNouveauMembre.Location = new System.Drawing.Point(1015, 43);
+            this.buttonNouveauMembre.Name = "buttonNouveauMembre";
+            this.buttonNouveauMembre.Size = new System.Drawing.Size(87, 23);
+            this.buttonNouveauMembre.TabIndex = 22;
+            this.buttonNouveauMembre.Text = "NOUVEAU";
+            this.buttonNouveauMembre.UseMnemonic = false;
+            this.buttonNouveauMembre.UseVisualStyleBackColor = false;
+            this.buttonNouveauMembre.Click += new System.EventHandler(this.buttonNouveauMembre_Click);
+            // 
+            // buttonNouvelObjet
+            // 
+            this.buttonNouvelObjet.BackColor = System.Drawing.Color.Lime;
+            this.buttonNouvelObjet.Location = new System.Drawing.Point(1015, 327);
+            this.buttonNouvelObjet.Name = "buttonNouvelObjet";
+            this.buttonNouvelObjet.Size = new System.Drawing.Size(87, 23);
+            this.buttonNouvelObjet.TabIndex = 23;
+            this.buttonNouvelObjet.Text = "NOUVEAU";
+            this.buttonNouvelObjet.UseVisualStyleBackColor = false;
+            this.buttonNouvelObjet.Click += new System.EventHandler(this.buttonNouvelObjet_Click);
+            // 
+            // buttonValiderMembre
+            // 
+            this.buttonValiderMembre.BackColor = System.Drawing.Color.Lime;
+            this.buttonValiderMembre.Location = new System.Drawing.Point(207, 288);
+            this.buttonValiderMembre.Name = "buttonValiderMembre";
+            this.buttonValiderMembre.Size = new System.Drawing.Size(87, 23);
+            this.buttonValiderMembre.TabIndex = 24;
+            this.buttonValiderMembre.Text = "VALIDER";
+            this.buttonValiderMembre.UseVisualStyleBackColor = false;
+            this.buttonValiderMembre.Visible = false;
+            this.buttonValiderMembre.Click += new System.EventHandler(this.buttonValiderMembre_Click);
+            // 
+            // buttonValiderObjet
+            // 
+            this.buttonValiderObjet.BackColor = System.Drawing.Color.Lime;
+            this.buttonValiderObjet.Location = new System.Drawing.Point(207, 574);
+            this.buttonValiderObjet.Name = "buttonValiderObjet";
+            this.buttonValiderObjet.Size = new System.Drawing.Size(87, 23);
+            this.buttonValiderObjet.TabIndex = 25;
+            this.buttonValiderObjet.Text = "VALIDER";
+            this.buttonValiderObjet.UseVisualStyleBackColor = false;
+            this.buttonValiderObjet.Visible = false;
+            this.buttonValiderObjet.Click += new System.EventHandler(this.buttonValiderObjet_Click);
+            // 
             // FormGestionGuilde
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(1129, 603);
+            this.Controls.Add(this.buttonValiderObjet);
+            this.Controls.Add(this.buttonValiderMembre);
+            this.Controls.Add(this.buttonNouvelObjet);
+            this.Controls.Add(this.buttonNouveauMembre);
             this.Controls.Add(this.labelHero);
             this.Controls.Add(this.labelObjet);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -551,6 +618,10 @@ namespace TP_CDEV_Guilde_Des_Heros
         private System.Windows.Forms.TextBox textBoxObjetDescription;
         private System.Windows.Forms.Label labelObjet;
         private System.Windows.Forms.Label labelHero;
+        private System.Windows.Forms.Button buttonNouveauMembre;
+        private System.Windows.Forms.Button buttonNouvelObjet;
+        private System.Windows.Forms.Button buttonValiderMembre;
+        private System.Windows.Forms.Button buttonValiderObjet;
     }
 }
 

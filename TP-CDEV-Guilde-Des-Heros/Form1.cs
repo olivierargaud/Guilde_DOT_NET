@@ -63,6 +63,7 @@ namespace TP_CDEV_Guilde_Des_Heros
                 dataGridViewMembres.Columns[9].Visible = false;
 
             }
+            verouChampMembre(true);
 
         }
 
@@ -101,6 +102,8 @@ namespace TP_CDEV_Guilde_Des_Heros
                 dataGridViewSacoche.Columns["obj_description"].DisplayIndex = 2;
 
             }
+
+            verouChampObjet(true);
         }
 
         private void ViderLesChampsHero()
@@ -128,48 +131,34 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonAjoutHero_Click(object sender, EventArgs e)
         {
-            hero hero = new hero();
-            hero.her_nom = textBoxHeroNom.Text;
-            hero.her_prenom = textBoxHeroPrenom.Text;
-            hero.her_specialite = textBoxHeroSpecialite.Text;
-            hero.her_classe = textBoxHeroClasse.Text;
-            hero.her_level = (int)numericUpDownHeroLevel.Value;
-            hero.her_puissance = (int)numericUpDownHeroPuissance.Value;
-            hero.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
-            hero.her_reputation = (int)numericUpDownHeroReputation.Value;
+            if (checkSaisieMembre())
+            {
+                hero hero = new hero();
+                hero.her_nom = textBoxHeroNom.Text;
+                hero.her_prenom = textBoxHeroPrenom.Text;
+                hero.her_specialite = textBoxHeroSpecialite.Text;
+                hero.her_classe = textBoxHeroClasse.Text;
+                hero.her_level = (int)numericUpDownHeroLevel.Value;
+                hero.her_puissance = (int)numericUpDownHeroPuissance.Value;
+                hero.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
+                hero.her_reputation = (int)numericUpDownHeroReputation.Value;
 
-            guilde_des_herosEntities entite = new guilde_des_herosEntities();
-            entite.hero.Add(hero);
-            entite.SaveChanges();
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                entite.hero.Add(hero);
+                entite.SaveChanges();
 
-            RefreshHero();
-            ViderLesChampsHero();
+                RefreshHero();
+                ViderLesChampsHero();
+                buttonAjoutHero.Visible = false;
+                verouChampMembre(false);
+            }
+            
         }
 
         private void buttonModifierHero_Click(object sender, EventArgs e)
         {
-            if (dataGridViewMembres.CurrentCell != null)
-            {
-                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
-      
-                guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
-                
-                hero heroAModifier = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
-                heroAModifier.her_nom = textBoxHeroNom.Text;
-                heroAModifier.her_prenom = textBoxHeroPrenom.Text;
-                heroAModifier.her_specialite = textBoxHeroSpecialite.Text;
-                heroAModifier.her_classe = textBoxHeroClasse.Text;
-                heroAModifier.her_level = (int)numericUpDownHeroLevel.Value;
-                heroAModifier.her_puissance = (int)numericUpDownHeroPuissance.Value;
-                heroAModifier.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
-                heroAModifier.her_reputation = (int)numericUpDownHeroReputation.Value;
-
-                entite.hero.AddOrUpdate(heroAModifier);
-                entite.SaveChanges();
-                RefreshHero();
-                ViderLesChampsHero();
-            }
+            buttonValiderMembre.Visible = true;
+            verouChampMembre(false);
         }
 
         private void buttonSupprimer_Click(object sender, EventArgs e)
@@ -216,6 +205,9 @@ namespace TP_CDEV_Guilde_Des_Heros
 
 
                 ViderLesChampsObjet();
+                verouChampMembre(true);
+                buttonAjoutHero.Visible = false;
+                buttonValiderMembre.Visible = false;
                 RefreshSacoche(int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString()));
 
             }
@@ -223,7 +215,7 @@ namespace TP_CDEV_Guilde_Des_Heros
 
         private void buttonAjouterObjet_Click(object sender, EventArgs e)
         {
-            if (dataGridViewMembres.CurrentCell != null)
+            if (dataGridViewMembres.CurrentCell != null && checkSaisieObjet())
             {
                 int ligne = dataGridViewMembres.CurrentCell.RowIndex;
 
@@ -241,35 +233,16 @@ namespace TP_CDEV_Guilde_Des_Heros
 
                 RefreshSacoche((int)o.obj_hero_id);
                 ViderLesChampsObjet();
-
+                buttonAjouterObjet.Visible = false;
+               
             }
             
         }
 
         private void buttonModifierObjet_Click(object sender, EventArgs e)
         {
-            if (dataGridViewSacoche.CurrentCell != null)
-            {
-                int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
-
-                guilde_des_herosEntities entite = new guilde_des_herosEntities();
-                int idObjet = int.Parse(dataGridViewSacoche.Rows[ligne].Cells[0].Value.ToString());
-
-                objet objetAModifier = entite.objet.Where(a => a.obj_id == idObjet).FirstOrDefault();
-
-
-                objetAModifier.obj_nom = textBoxObjetNom.Text;
-                objetAModifier.obj_description = textBoxObjetDescription.Text;
-                objetAModifier.obj_level = (int)numericUpDownObjetLevel.Value;
-                objetAModifier.obj_quantite = (int)numericUpDownObjetQuantite.Value;
-                objetAModifier.obj_prix = (int)numericUpDownObjetPrix.Value;
-               
-
-                entite.objet.AddOrUpdate(objetAModifier);
-                entite.SaveChanges();
-                RefreshSacoche((int)objetAModifier.obj_hero_id);
-                ViderLesChampsObjet();
-            }
+            buttonValiderObjet.Visible = true;
+            verouChampObjet(false);
         }
 
         private void buttonSupprimerObjet_Click(object sender, EventArgs e)
@@ -304,7 +277,10 @@ namespace TP_CDEV_Guilde_Des_Heros
                 numericUpDownObjetLevel.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[2].Value.ToString());
                 numericUpDownObjetQuantite.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[3].Value.ToString());
                 numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[5].Value.ToString());
-               
+
+                verouChampObjet(true);
+                buttonAjouterObjet.Visible = false;
+                buttonValiderObjet.Visible = false;
             }
         }
 
@@ -345,5 +321,262 @@ namespace TP_CDEV_Guilde_Des_Heros
             numericUpDownObjetPrix.Value = decimal.Parse(dataGridViewSacoche.Rows[ligne].Cells[5].Value.ToString());
         }
 
+        private void buttonNouveauMembre_Click(object sender, EventArgs e)
+        {
+            ViderLesChampsHero();
+            verouChampMembre(false);
+            buttonAjoutHero.Visible = true;
+        }
+
+        private void buttonNouvelObjet_Click(object sender, EventArgs e)
+        {
+            ViderLesChampsObjet();
+            verouChampObjet(false);
+            buttonAjouterObjet.Visible = true;
+        }
+
+
+
+        private Boolean checkSaisieMembre()
+        {
+            Boolean checkOk = true;
+
+            if(textBoxHeroNom.Text.Length < 1)
+            {
+                checkOk = false;
+                textBoxHeroNom.BackColor = Color.Red;
+            }
+
+            if (textBoxHeroPrenom.Text.Length < 1)
+            {
+                checkOk = false;
+                textBoxHeroPrenom.BackColor = Color.Red;
+            }
+
+            if (textBoxHeroSpecialite.Text.Length < 1)
+            {
+                checkOk = false;
+                textBoxHeroSpecialite.BackColor = Color.Red;
+            }
+
+            if (textBoxHeroClasse.Text.Length < 1)
+            {
+                checkOk = false;
+                textBoxHeroClasse.BackColor = Color.Red;
+            }
+
+            if((int)numericUpDownHeroLevel.Value < 1)
+            {
+                checkOk = false;
+                numericUpDownHeroLevel.BackColor = Color.Red;
+            }
+
+            if ((int)numericUpDownHeroPuissance.Value < 1)
+            {
+                checkOk = false;
+                numericUpDownHeroPuissance.BackColor = Color.Red;
+            }
+
+
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            List<hero> listeMembres = entite.hero.ToList();
+
+            foreach (hero membre in listeMembres){
+
+                if( membre.her_nom.Equals(textBoxHeroNom.Text) && membre.her_prenom.Equals(textBoxHeroPrenom.Text))
+                {
+                    checkOk = false;
+                    textBoxHeroNom.BackColor = Color.Red;
+                    textBoxHeroPrenom.BackColor = Color.Red;
+                }
+
+            }
+
+
+
+            return checkOk;
+        }
+
+        private void textBoxHeroNom_TextChanged(object sender, EventArgs e)
+        {
+            textBoxHeroNom.BackColor = Color.White;
+        }
+
+        private void textBoxHeroPrenom_TextChanged(object sender, EventArgs e)
+        {
+            textBoxHeroPrenom.BackColor = Color.White;
+        }
+
+        private void textBoxHeroSpecialite_TextChanged(object sender, EventArgs e)
+        {
+            textBoxHeroSpecialite.BackColor = Color.White;
+        }
+
+        private void textBoxHeroClasse_TextChanged(object sender, EventArgs e)
+        {
+            textBoxHeroClasse.BackColor = Color.White;
+        }
+
+        private void numericUpDownHeroLevel_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownHeroLevel.BackColor = Color.White;
+        }
+
+        private void numericUpDownHeroPuissance_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownHeroPuissance.BackColor = Color.White;
+        }
+
+
+
+
+        private Boolean checkSaisieObjet()
+        {
+            Boolean checkOk = true;
+
+            if (textBoxObjetNom.Text.Length < 1)
+            {
+                checkOk = false;
+                textBoxObjetNom.BackColor = Color.Red;
+            }
+
+            if ((int)numericUpDownObjetLevel.Value < 1)
+            {
+                checkOk = false;
+                numericUpDownObjetLevel.BackColor = Color.Red;
+            }
+
+            if ((int)numericUpDownObjetQuantite.Value < 1)
+            {
+                checkOk = false;
+                numericUpDownObjetQuantite.BackColor = Color.Red;
+            }
+
+            if ((int)numericUpDownObjetPrix.Value < 1)
+            {
+                checkOk = false;
+                numericUpDownObjetPrix.BackColor = Color.Red;
+            }
+
+            int idHero = int.Parse(dataGridViewMembres.CurrentRow.Cells[0].Value.ToString());
+
+            guilde_des_herosEntities entite = new guilde_des_herosEntities();
+            List<objet> listeObjets = entite.objet.Where(a => a.obj_hero_id == idHero).ToList();
+
+            foreach (objet o in listeObjets)
+            {
+
+                if (o.obj_nom.Equals(textBoxObjetNom.Text))
+                {
+                    checkOk = false;
+                    textBoxObjetNom.BackColor = Color.Red;
+                }
+
+            }
+
+            return checkOk;
+        }
+
+        private void textBoxObjetNom_TextChanged(object sender, EventArgs e)
+        {
+            textBoxObjetNom.BackColor = Color.White;
+        }
+
+        private void numericUpDownObjetLevel_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownObjetLevel.BackColor = Color.White;
+        }
+
+        private void numericUpDownObjetQuantite_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownObjetQuantite.BackColor = Color.White;
+        }
+
+        private void numericUpDownObjetPrix_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownObjetPrix.BackColor = Color.White;
+        }
+
+        private void buttonValiderMembre_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewMembres.CurrentCell != null)
+            {
+                int ligne = dataGridViewMembres.CurrentCell.RowIndex;
+
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idHero = int.Parse(dataGridViewMembres.Rows[ligne].Cells[0].Value.ToString());
+
+                hero heroAModifier = entite.hero.Where(a => a.her_id == idHero).FirstOrDefault();
+                heroAModifier.her_nom = textBoxHeroNom.Text;
+                heroAModifier.her_prenom = textBoxHeroPrenom.Text;
+                heroAModifier.her_specialite = textBoxHeroSpecialite.Text;
+                heroAModifier.her_classe = textBoxHeroClasse.Text;
+                heroAModifier.her_level = (int)numericUpDownHeroLevel.Value;
+                heroAModifier.her_puissance = (int)numericUpDownHeroPuissance.Value;
+                heroAModifier.her_nb_mission = (int)numericUpDownHeroNbMission.Value;
+                heroAModifier.her_reputation = (int)numericUpDownHeroReputation.Value;
+
+                entite.hero.AddOrUpdate(heroAModifier);
+                entite.SaveChanges();
+                RefreshHero();
+                ViderLesChampsHero();
+
+                buttonValiderMembre.Visible = false;
+            }
+        }
+
+        private void buttonValiderObjet_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSacoche.CurrentCell != null)
+            {
+                int ligne = dataGridViewSacoche.CurrentCell.RowIndex;
+
+                guilde_des_herosEntities entite = new guilde_des_herosEntities();
+                int idObjet = int.Parse(dataGridViewSacoche.Rows[ligne].Cells[0].Value.ToString());
+
+                objet objetAModifier = entite.objet.Where(a => a.obj_id == idObjet).FirstOrDefault();
+
+
+                objetAModifier.obj_nom = textBoxObjetNom.Text;
+                objetAModifier.obj_description = textBoxObjetDescription.Text;
+                objetAModifier.obj_level = (int)numericUpDownObjetLevel.Value;
+                objetAModifier.obj_quantite = (int)numericUpDownObjetQuantite.Value;
+                objetAModifier.obj_prix = (int)numericUpDownObjetPrix.Value;
+
+
+                entite.objet.AddOrUpdate(objetAModifier);
+                entite.SaveChanges();
+                RefreshSacoche((int)objetAModifier.obj_hero_id);
+                ViderLesChampsObjet();
+
+                buttonValiderObjet.Visible = false;
+            }
+        }
+
+
+        private void verouChampMembre(Boolean verou)
+        {
+            textBoxHeroNom.Enabled = !verou;
+            textBoxHeroPrenom.Enabled = !verou;
+            textBoxHeroSpecialite.Enabled = !verou;
+            textBoxHeroClasse.Enabled = !verou;
+            numericUpDownHeroLevel.Enabled = !verou;
+            numericUpDownHeroPuissance.Enabled = !verou;
+            numericUpDownHeroNbMission.Enabled = !verou;
+            numericUpDownHeroReputation.Enabled = !verou;
+
+        }
+
+
+        private void verouChampObjet(Boolean verou)
+        {
+
+            textBoxObjetNom.Enabled = !verou;
+            textBoxObjetDescription.Enabled = !verou;
+            numericUpDownObjetLevel.Enabled = !verou;
+            numericUpDownObjetQuantite.Enabled = !verou;
+            numericUpDownObjetPrix.Enabled = !verou;
+           
+        }
     }
 }

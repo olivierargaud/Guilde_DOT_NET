@@ -33,7 +33,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.dataGridViewSacoche = new System.Windows.Forms.DataGridView();
             this.buttonAjoutHero = new System.Windows.Forms.Button();
             this.buttonModifierHero = new System.Windows.Forms.Button();
-            this.buttonSupprimer = new System.Windows.Forms.Button();
+            this.buttonSupprimerHero = new System.Windows.Forms.Button();
             this.buttonAjouterObjet = new System.Windows.Forms.Button();
             this.buttonModifierObjet = new System.Windows.Forms.Button();
             this.buttonSupprimerObjet = new System.Windows.Forms.Button();
@@ -69,7 +69,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.labelHero = new System.Windows.Forms.Label();
             this.buttonNouveauMembre = new System.Windows.Forms.Button();
             this.buttonNouvelObjet = new System.Windows.Forms.Button();
-            this.buttonValiderMembre = new System.Windows.Forms.Button();
+            this.buttonValiderHero = new System.Windows.Forms.Button();
             this.buttonValiderObjet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMembres)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSacoche)).BeginInit();
@@ -140,17 +140,17 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.buttonModifierHero.UseVisualStyleBackColor = false;
             this.buttonModifierHero.Click += new System.EventHandler(this.buttonModifierHero_Click);
             // 
-            // buttonSupprimer
+            // buttonSupprimerHero
             // 
-            this.buttonSupprimer.BackColor = System.Drawing.Color.Red;
-            this.buttonSupprimer.ForeColor = System.Drawing.Color.White;
-            this.buttonSupprimer.Location = new System.Drawing.Point(1015, 101);
-            this.buttonSupprimer.Name = "buttonSupprimer";
-            this.buttonSupprimer.Size = new System.Drawing.Size(87, 23);
-            this.buttonSupprimer.TabIndex = 4;
-            this.buttonSupprimer.Text = "SUPPRIMER";
-            this.buttonSupprimer.UseVisualStyleBackColor = false;
-            this.buttonSupprimer.Click += new System.EventHandler(this.buttonSupprimer_Click);
+            this.buttonSupprimerHero.BackColor = System.Drawing.Color.Red;
+            this.buttonSupprimerHero.ForeColor = System.Drawing.Color.White;
+            this.buttonSupprimerHero.Location = new System.Drawing.Point(1015, 101);
+            this.buttonSupprimerHero.Name = "buttonSupprimerHero";
+            this.buttonSupprimerHero.Size = new System.Drawing.Size(87, 23);
+            this.buttonSupprimerHero.TabIndex = 4;
+            this.buttonSupprimerHero.Text = "SUPPRIMER";
+            this.buttonSupprimerHero.UseVisualStyleBackColor = false;
+            this.buttonSupprimerHero.Click += new System.EventHandler(this.buttonSupprimerHero_Click);
             // 
             // buttonAjouterObjet
             // 
@@ -233,6 +233,11 @@ namespace TP_CDEV_Guilde_Des_Heros
             // numericUpDownHeroNbMission
             // 
             this.numericUpDownHeroNbMission.Location = new System.Drawing.Point(121, 166);
+            this.numericUpDownHeroNbMission.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDownHeroNbMission.Name = "numericUpDownHeroNbMission";
             this.numericUpDownHeroNbMission.Size = new System.Drawing.Size(161, 20);
             this.numericUpDownHeroNbMission.TabIndex = 14;
@@ -386,6 +391,11 @@ namespace TP_CDEV_Guilde_Des_Heros
             // numericUpDownObjetPrix
             // 
             this.numericUpDownObjetPrix.Location = new System.Drawing.Point(122, 210);
+            this.numericUpDownObjetPrix.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.numericUpDownObjetPrix.Name = "numericUpDownObjetPrix";
             this.numericUpDownObjetPrix.Size = new System.Drawing.Size(160, 20);
             this.numericUpDownObjetPrix.TabIndex = 19;
@@ -498,7 +508,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.buttonNouveauMembre.Text = "NOUVEAU";
             this.buttonNouveauMembre.UseMnemonic = false;
             this.buttonNouveauMembre.UseVisualStyleBackColor = false;
-            this.buttonNouveauMembre.Click += new System.EventHandler(this.buttonNouveauMembre_Click);
+            this.buttonNouveauMembre.Click += new System.EventHandler(this.buttonNouveauHero_Click);
             // 
             // buttonNouvelObjet
             // 
@@ -511,17 +521,17 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.buttonNouvelObjet.UseVisualStyleBackColor = false;
             this.buttonNouvelObjet.Click += new System.EventHandler(this.buttonNouvelObjet_Click);
             // 
-            // buttonValiderMembre
+            // buttonValiderHero
             // 
-            this.buttonValiderMembre.BackColor = System.Drawing.Color.Lime;
-            this.buttonValiderMembre.Location = new System.Drawing.Point(207, 288);
-            this.buttonValiderMembre.Name = "buttonValiderMembre";
-            this.buttonValiderMembre.Size = new System.Drawing.Size(87, 23);
-            this.buttonValiderMembre.TabIndex = 24;
-            this.buttonValiderMembre.Text = "VALIDER";
-            this.buttonValiderMembre.UseVisualStyleBackColor = false;
-            this.buttonValiderMembre.Visible = false;
-            this.buttonValiderMembre.Click += new System.EventHandler(this.buttonValiderMembre_Click);
+            this.buttonValiderHero.BackColor = System.Drawing.Color.Lime;
+            this.buttonValiderHero.Location = new System.Drawing.Point(207, 288);
+            this.buttonValiderHero.Name = "buttonValiderHero";
+            this.buttonValiderHero.Size = new System.Drawing.Size(87, 23);
+            this.buttonValiderHero.TabIndex = 24;
+            this.buttonValiderHero.Text = "VALIDER";
+            this.buttonValiderHero.UseVisualStyleBackColor = false;
+            this.buttonValiderHero.Visible = false;
+            this.buttonValiderHero.Click += new System.EventHandler(this.buttonValiderHero_Click);
             // 
             // buttonValiderObjet
             // 
@@ -542,7 +552,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(1129, 603);
             this.Controls.Add(this.buttonValiderObjet);
-            this.Controls.Add(this.buttonValiderMembre);
+            this.Controls.Add(this.buttonValiderHero);
             this.Controls.Add(this.buttonNouvelObjet);
             this.Controls.Add(this.buttonNouveauMembre);
             this.Controls.Add(this.labelHero);
@@ -552,7 +562,7 @@ namespace TP_CDEV_Guilde_Des_Heros
             this.Controls.Add(this.buttonSupprimerObjet);
             this.Controls.Add(this.buttonModifierObjet);
             this.Controls.Add(this.buttonAjouterObjet);
-            this.Controls.Add(this.buttonSupprimer);
+            this.Controls.Add(this.buttonSupprimerHero);
             this.Controls.Add(this.buttonModifierHero);
             this.Controls.Add(this.buttonAjoutHero);
             this.Controls.Add(this.dataGridViewSacoche);
@@ -584,7 +594,7 @@ namespace TP_CDEV_Guilde_Des_Heros
         private System.Windows.Forms.DataGridView dataGridViewSacoche;
         private System.Windows.Forms.Button buttonAjoutHero;
         private System.Windows.Forms.Button buttonModifierHero;
-        private System.Windows.Forms.Button buttonSupprimer;
+        private System.Windows.Forms.Button buttonSupprimerHero;
         private System.Windows.Forms.Button buttonAjouterObjet;
         private System.Windows.Forms.Button buttonModifierObjet;
         private System.Windows.Forms.Button buttonSupprimerObjet;
@@ -620,7 +630,7 @@ namespace TP_CDEV_Guilde_Des_Heros
         private System.Windows.Forms.Label labelHero;
         private System.Windows.Forms.Button buttonNouveauMembre;
         private System.Windows.Forms.Button buttonNouvelObjet;
-        private System.Windows.Forms.Button buttonValiderMembre;
+        private System.Windows.Forms.Button buttonValiderHero;
         private System.Windows.Forms.Button buttonValiderObjet;
     }
 }

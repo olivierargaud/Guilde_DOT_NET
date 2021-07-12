@@ -150,7 +150,7 @@ namespace TP_CDEV_Guilde_Des_Heros
                 RefreshHero();
                 ViderLesChampsHero();
                 buttonAjoutHero.Visible = false;
-                verouChampMembre(false);
+                verouChampMembre(true);
             }
             
         }
@@ -233,6 +233,7 @@ namespace TP_CDEV_Guilde_Des_Heros
 
                 RefreshSacoche((int)o.obj_hero_id);
                 ViderLesChampsObjet();
+                verouChampObjet(true);
                 buttonAjouterObjet.Visible = false;
                
             }
